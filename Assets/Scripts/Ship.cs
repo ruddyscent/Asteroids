@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Ship : MonoBehaviour
 {
@@ -34,6 +35,8 @@ public class Ship : MonoBehaviour
             rotationAmount *= -1;
         }
         transform.Rotate(Vector3.forward, rotationAmount);
+        float angle_in_rad = Mathf.Deg2Rad * transform.eulerAngles.z;
+        thrustDirection = new Vector2(Mathf.Cos(angle_in_rad), Mathf.Sin(angle_in_rad));
     }
 
     void FixedUpdate() {
@@ -61,7 +64,7 @@ public class Ship : MonoBehaviour
             position.y = ScreenUtils.ScreenTop;
         } else if (position.y > ScreenUtils.ScreenTop)
         {
-            position.x = ScreenUtils.ScreenBottom;
+            position.y = ScreenUtils.ScreenBottom;
         }
 
         transform.position = position;
