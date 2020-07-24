@@ -1,7 +1,8 @@
-# This .gitignore file should be placed at the root of your Unity project directory
 #
-# Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
+# gitignore for Unity from
+# https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
+
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
@@ -58,3 +59,17 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+#
+# gitignore for Visual Studio code from
+# https://github.com/github/gitignore/blob/master/Global/VisualStudioCode.gitignore
+#
+
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Local History for Visual Studio Code
+.history/
