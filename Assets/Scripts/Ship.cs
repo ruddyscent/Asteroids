@@ -7,7 +7,7 @@ public class Ship : MonoBehaviour
 {
     // private Rigidbody2D rigidbody2D;
     private Vector2 thrustDirection;
-    private float ThrustForce = 1.0f;
+    private float thrustForce = 10.0f;
     private CapsuleDirection2D direction;
     private Vector2 size;
     private float rotateDegreesPerSecond = 20f;
@@ -43,30 +43,7 @@ public class Ship : MonoBehaviour
 
         if (Input.GetAxis("Thrust") > 0)
         {
-            GetComponent<Rigidbody2D>().AddForce(ThrustForce * thrustDirection);
+            GetComponent<Rigidbody2D>().AddForce(thrustForce * thrustDirection);
         }
-    }
-
-    void OnBecameInvisible()
-    {
-        Vector2 position = transform.position;
-
-        if (position.x < ScreenUtils.ScreenLeft)
-        {
-            position.x = ScreenUtils.ScreenRight;
-        } else if (position.x > ScreenUtils.ScreenRight)
-        {
-            position.x = ScreenUtils.ScreenLeft;
-        }
-    
-        if (position.y < ScreenUtils.ScreenBottom)
-        {
-            position.y = ScreenUtils.ScreenTop;
-        } else if (position.y > ScreenUtils.ScreenTop)
-        {
-            position.y = ScreenUtils.ScreenBottom;
-        }
-
-        transform.position = position;
     }
 }
