@@ -7,7 +7,7 @@ public class Ship : MonoBehaviour
 {
     // private Rigidbody2D rigidbody2D;
     private Vector2 thrustDirection;
-    private float thrustForce = 10.0f;
+    private float thrustForce = 1f;
     private CapsuleDirection2D direction;
     private Vector2 size;
     private float rotateDegreesPerSecond = 20f;
