@@ -27,8 +27,25 @@ public class Asteroid : MonoBehaviour
             direction * magnitude,
             ForceMode2D.Impulse);
 
+        int positionSelection = Random.Range(0, 4);
+        switch (positionSelection)
+        {
+            case 0:
+                this.transform.position = new Vector2(ScreenUtils.ScreenLeft, 0);
+                break;
+            case 1:
+                this.transform.position = new Vector2(ScreenUtils.ScreenRight, 0);
+                break;
+            case 2:
+                this.transform.position = new Vector2(0, ScreenUtils.ScreenTop);
+                break;
+            case 3:
+                this.transform.position = new Vector2(0, ScreenUtils.ScreenBottom);
+                break;
+        }
+
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-        int spriteNumber = Random.Range(1, 3);
+        int spriteNumber = Random.Range(1, 4);
         switch (spriteNumber)
         {
             case 1:
@@ -41,11 +58,27 @@ public class Asteroid : MonoBehaviour
                 spriteRenderer.sprite = asteroidSprite3;
                 break;
         }
+
+        GameObject[] otherAsteroids = GameObject.FindGameObjectsWithTag("Asteroid");
+        foreach (GameObject obj in otherAsteroids)
+        {
+            Physics2D.IgnoreCollision(obj.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+        }
+
     }
 
         // Update is called once per frame
         void Update()
     {
         
+    }
+
+
+    void OnCollisionEnter2D(Collision2D coll)
+    {
+        if (coll.gameObject.tag == "Ship")
+        {
+            Destroy(coll.gameObject);
+        }
     }
 }
