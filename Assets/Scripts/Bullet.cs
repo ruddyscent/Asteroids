@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour
     float bulletLifeTime = 2f;
     Timer bulletLifeTimer;
     GameObject thisBullet;
+    GameObject hud;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +29,8 @@ public class Bullet : MonoBehaviour
         bulletLifeTimer = gameObject.AddComponent<Timer>();
         bulletLifeTimer.Duration = bulletLifeTime;
         bulletLifeTimer.Run();
+
+        hud = GameObject.FindGameObjectsWithTag("HUD")[0];
     }
 
     // Update is called once per frame
@@ -43,7 +46,10 @@ public class Bullet : MonoBehaviour
     {
         if (coll.gameObject.tag == "Asteroid")
         {
+            HUD hudScript = (HUD) hud.GetComponent(typeof(HUD));
+            hudScript.UpdateScore(1);
             Destroy(coll.gameObject);
+            //Destroy(gameObject);
         }
     }
 }
