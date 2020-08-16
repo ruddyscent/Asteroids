@@ -1,32 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Asteroid : MonoBehaviour
 {
     [SerializeField]
-    Sprite asteroidSprite1;
+    Sprite spriteAsteroid0;
 
     [SerializeField]
-    Sprite asteroidSprite2;
+    Sprite spriteAsteroid1;
 
     [SerializeField]
-    Sprite asteroidSprite3;
+    Sprite spriteAsteroid2;
+
+    const float MinImpulseForce = 1f;
+    const float MaxImpulseForce = 3f;
 
     // Start is called before the first frame update
     void Start()
     {
-        // apply impulse force to get game object moving
-        const float MinImpulseForce = 3f;
-        const float MaxImpulseForce = 5f;
-        float angle = Random.Range(0, 2 * Mathf.PI);
-        Vector2 direction = new Vector2(
-            Mathf.Cos(angle), Mathf.Sin(angle));
-        float magnitude = Random.Range(MinImpulseForce, MaxImpulseForce);
-        GetComponent<Rigidbody2D>().AddForce(
-            direction * magnitude,
-            ForceMode2D.Impulse);
-
         int positionSelection = Random.Range(0, 4);
         switch (positionSelection)
         {
@@ -45,17 +35,17 @@ public class Asteroid : MonoBehaviour
         }
 
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-        int spriteNumber = Random.Range(1, 4);
+        int spriteNumber = Random.Range(0, 3);
         switch (spriteNumber)
         {
+            case 0:
+                spriteRenderer.sprite = spriteAsteroid0;
+                break;
             case 1:
-                spriteRenderer.sprite = asteroidSprite1;
+                spriteRenderer.sprite = spriteAsteroid1;
                 break;
             case 2:
-                spriteRenderer.sprite = asteroidSprite2;
-                break;
-            case 3:
-                spriteRenderer.sprite = asteroidSprite3;
+                spriteRenderer.sprite = spriteAsteroid2;
                 break;
         }
 
@@ -64,15 +54,13 @@ public class Asteroid : MonoBehaviour
         {
             Physics2D.IgnoreCollision(obj.GetComponent<Collider2D>(), GetComponent<Collider2D>());
         }
-
     }
 
-        // Update is called once per frame
-        void Update()
+    // Update is called once per frame
+    void Update()
     {
         
     }
-
 
     void OnCollisionEnter2D(Collision2D coll)
     {
@@ -80,5 +68,37 @@ public class Asteroid : MonoBehaviour
         {
             Destroy(coll.gameObject);
         }
+    }
+
+    public void Initialize(Direction direction, Vector3 position)
+    {
+        // Set asteroid position
+        transform.position = position;
+
+        // Set random angle based on direction
+        float angle = Random.value * 30f * Mathf.Deg2Rad;
+        switch (direction)
+        {
+            case Direction.Up:
+                angle += 75 * Mathf.Deg2Rad;
+                break;
+            case Direction.Left:
+                angle += 165 * Mathf.Deg2Rad;
+                break;
+            case Direction.Down:
+                angle += 255 * Mathf.Deg2Rad;
+                break;
+            case Direction.Right:
+                angle += -15 * Mathf.Deg2Rad;
+                break;
+        }
+
+        // Apply impulse force to get asteroid moving
+        Vector2 moveDirection = new Vector2(
+            Mathf.Cos(angle), Mathf.Sin(angle));
+        float magnitude = Random.Range(MinImpulseForce, MaxImpulseForce);
+        GetComponent<Rigidbody2D>().AddForce(
+            moveDirection * magnitude,
+            ForceMode2D.Impulse);
     }
 }
