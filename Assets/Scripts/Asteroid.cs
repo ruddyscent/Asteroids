@@ -15,6 +15,8 @@ public class Asteroid : MonoBehaviour
     const float MaxImpulseForce = 3f;
     GameObject hud;
 
+    private int heatCount = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -82,7 +84,15 @@ public class Asteroid : MonoBehaviour
             hudScript.UpdateScore(1);
 
             // Destroy asteroid
-            Destroy(gameObject);
+            heatCount += 1;
+            if (heatCount > 1)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                transform.localScale /= 2;
+            }
             break;
         }
     }

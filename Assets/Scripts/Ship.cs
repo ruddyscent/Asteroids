@@ -55,13 +55,13 @@ public class Ship : MonoBehaviour
         if (Input.GetAxis("Fire") > 0 && spawnTimer.Finished)
         {
             spawnTimer.Run();
-            Vector2 direction = new Vector2(Mathf.Cos(angle_in_rad), Mathf.Sin(angle_in_rad));
-            Vector3 direction3 = new Vector3(direction.x, direction.y, 0);
+            Vector2 shipHeading = new Vector2(Mathf.Cos(angle_in_rad), Mathf.Sin(angle_in_rad));
+            Vector3 direction3 = new Vector3(shipHeading.x, shipHeading.y, 0);
             Vector2 position = new Vector3(transform.position.x, transform.position.y, transform.position.z) + 3 * direction3;
             GameObject bullet = Instantiate(bulletPrefab, position, Quaternion.identity);
             Rigidbody2D bulletRigidbody2D = bullet.GetComponent<Rigidbody2D>();
-          //  bulletRigidbody2D.velocity = GetComponent<Rigidbody2D>().
-            bulletRigidbody2D.AddForce(10 * direction, ForceMode2D.Impulse);    
+            Vector2 shipVelocity = GetComponent<Rigidbody2D>().velocity;
+            bulletRigidbody2D.AddForce(10 * shipHeading + shipVelocity, ForceMode2D.Impulse);    
         }
     }
 
