@@ -20,6 +20,8 @@ public class Ship : MonoBehaviour
     [SerializeField]
     GameObject bulletPrefab = null;
 
+    const float bulletMuzzleSpeed = 10;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -55,13 +57,15 @@ public class Ship : MonoBehaviour
         if (Input.GetAxis("Fire") > 0 && spawnTimer.Finished)
         {
             spawnTimer.Run();
-            Vector2 shipHeading = new Vector2(Mathf.Cos(angle_in_rad), Mathf.Sin(angle_in_rad));
-            Vector3 direction3 = new Vector3(shipHeading.x, shipHeading.y, 0);
-            Vector2 position = new Vector3(transform.position.x, transform.position.y, transform.position.z) + 3 * direction3;
-            GameObject bullet = Instantiate(bulletPrefab, position, Quaternion.identity);
-            Rigidbody2D bulletRigidbody2D = bullet.GetComponent<Rigidbody2D>();
+
             Vector2 shipVelocity = GetComponent<Rigidbody2D>().velocity;
-            bulletRigidbody2D.AddForce(10 * shipHeading + shipVelocity, ForceMode2D.Impulse);    
+
+            Vector2 shipHeading = new Vector2(Mathf.Cos(angle_in_rad), Mathf.Sin(angle_in_rad));
+            Vector2 firePosition = new Vector2(transform.position.x, transform.position.y) + 3 * shipHeading;
+            GameObject bullet = Instantiate(bulletPrefab, firePosition, Quaternion.identity);
+            Rigidbody2D bulletRigidbody2D = bullet.GetComponent<Rigidbody2D>();
+
+            bulletRigidbody2D.AddForce(bulletMuzzleSpeed * shipHeading + shipVelocity, ForceMode2D.Impulse);    
         }
     }
 
