@@ -11,8 +11,6 @@ public class Asteroid : MonoBehaviour
     [SerializeField]
     Sprite spriteAsteroid2 = null;
 
-    const float MinImpulseForce = 1f;
-    const float MaxImpulseForce = 3f;
     GameObject hud;
 
     private int heatCount = 0;
@@ -20,38 +18,6 @@ public class Asteroid : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        int positionSelection = Random.Range(0, 4);
-        switch (positionSelection)
-        {
-            case 0:
-                this.transform.position = new Vector2(ScreenUtils.ScreenLeft, 0);
-                break;
-            case 1:
-                this.transform.position = new Vector2(ScreenUtils.ScreenRight, 0);
-                break;
-            case 2:
-                this.transform.position = new Vector2(0, ScreenUtils.ScreenTop);
-                break;
-            case 3:
-                this.transform.position = new Vector2(0, ScreenUtils.ScreenBottom);
-                break;
-        }
-
-        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-        int spriteNumber = Random.Range(0, 3);
-        switch (spriteNumber)
-        {
-            case 0:
-                spriteRenderer.sprite = spriteAsteroid0;
-                break;
-            case 1:
-                spriteRenderer.sprite = spriteAsteroid1;
-                break;
-            case 2:
-                spriteRenderer.sprite = spriteAsteroid2;
-                break;
-        }
-
         GameObject[] otherAsteroids = GameObject.FindGameObjectsWithTag("Asteroid");
         foreach (GameObject obj in otherAsteroids)
         {
@@ -59,12 +25,6 @@ public class Asteroid : MonoBehaviour
         }
 
         hud = GameObject.FindGameObjectsWithTag("HUD")[0];
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -92,40 +52,47 @@ public class Asteroid : MonoBehaviour
             else
             {
                 transform.localScale /= 2;
+
+                GameObject fragment = Instantiate(gameObject, transform.position, Quaternion.identity);
+                fragment.GetComponent<Asteroid>().heatCount = heatCount;
+
+                // Set movement of new fragment with little perturbation
+                Rigidbody2D fargmentRigidbody = fragment.GetComponent<Rigidbody2D>();
+                Rigidbody2D originalRigidbody = GetComponent<Rigidbody2D>();
+
+                float minDisturbe = 0.5f;
+                float maxDisturbe = 1.5f; 
+                Vector2 perturbation = new Vector2(Random.Range(minDisturbe, maxDisturbe), 
+                                                  Random.Range(minDisturbe, maxDisturbe));
+                fargmentRigidbody.velocity = perturbation * originalRigidbody.velocity;
             }
             break;
         }
     }
 
-    public void Initialize(Direction direction, Vector3 position)
+    public void Initialize(Vector2 force, Vector3 position)
     {
-        // Set asteroid position
-        transform.position = position;
-
-        // Set random angle based on direction
-        float angle = Random.value * 30f * Mathf.Deg2Rad;
-        switch (direction)
+        // If the sprite is not given, use a random sprite.
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        int spriteNumber = Random.Range(0, 3);
+        switch (spriteNumber)
         {
-            case Direction.Up:
-                angle += 75 * Mathf.Deg2Rad;
+            case 0:
+                spriteRenderer.sprite = spriteAsteroid0;
                 break;
-            case Direction.Left:
-                angle += 165 * Mathf.Deg2Rad;
+            case 1:
+                spriteRenderer.sprite = spriteAsteroid1;
                 break;
-            case Direction.Down:
-                angle += 255 * Mathf.Deg2Rad;
-                break;
-            case Direction.Right:
-                angle += -15 * Mathf.Deg2Rad;
+            case 2:
+                spriteRenderer.sprite = spriteAsteroid2;
                 break;
         }
 
-        // Apply impulse force to get asteroid moving
-        Vector2 moveDirection = new Vector2(
-            Mathf.Cos(angle), Mathf.Sin(angle));
-        float magnitude = Random.Range(MinImpulseForce, MaxImpulseForce);
+        // Set asteroid position
+        transform.position = position;
+
         GetComponent<Rigidbody2D>().AddForce(
-            moveDirection * magnitude,
+            force,
             ForceMode2D.Impulse);
     }
 }
