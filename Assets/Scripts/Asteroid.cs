@@ -13,6 +13,7 @@ public class Asteroid : MonoBehaviour
 
     const float MinImpulseForce = 1f;
     const float MaxImpulseForce = 3f;
+    GameObject hud;
 
     // Start is called before the first frame update
     void Start()
@@ -54,6 +55,8 @@ public class Asteroid : MonoBehaviour
         {
             Physics2D.IgnoreCollision(obj.GetComponent<Collider2D>(), GetComponent<Collider2D>());
         }
+
+        hud = GameObject.FindGameObjectsWithTag("HUD")[0];
     }
 
     // Update is called once per frame
@@ -62,11 +65,25 @@ public class Asteroid : MonoBehaviour
         
     }
 
-    void OnCollisionEnter2D(Collision2D coll)
+    void OnCollisionEnter2D(Collision2D col)
     {
-        if (coll.gameObject.tag == "Ship")
+        switch (col.gameObject.tag)
         {
-            Destroy(coll.gameObject);
+            case "Ship":
+            Destroy(col.gameObject);
+            break;
+
+            case "Bullet":
+            // Destroy bullet
+            Destroy(col.gameObject);
+
+            // Incrase score
+            HUD hudScript = (HUD) hud.GetComponent(typeof(HUD));
+            hudScript.UpdateScore(1);
+
+            // Destroy asteroid
+            Destroy(gameObject);
+            break;
         }
     }
 
