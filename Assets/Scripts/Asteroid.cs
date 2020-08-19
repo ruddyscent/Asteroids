@@ -3,13 +3,13 @@
 public class Asteroid : MonoBehaviour
 {
     [SerializeField]
-    Sprite spriteAsteroid0;
+    Sprite spriteAsteroid0 = null;
 
     [SerializeField]
-    Sprite spriteAsteroid1;
+    Sprite spriteAsteroid1 = null;
 
     [SerializeField]
-    Sprite spriteAsteroid2;
+    Sprite spriteAsteroid2 = null;
 
     const float MinImpulseForce = 1f;
     const float MaxImpulseForce = 3f;

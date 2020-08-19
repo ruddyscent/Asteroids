@@ -3,7 +3,7 @@
 public class AsteroidSpawner : MonoBehaviour
 {
     [SerializeField]
-    GameObject prefabAsteroid;
+    GameObject prefabAsteroid = null;
     float asteroidRadius;
     float screenWidth;
     float screenHeight;

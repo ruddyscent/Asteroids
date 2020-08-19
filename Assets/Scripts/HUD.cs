@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class HUD : MonoBehaviour
 {
     [SerializeField]
-    Text scoreText;
+    Text scoreText = null;
     int score = 0;
 
     // Start is called before the first frame update

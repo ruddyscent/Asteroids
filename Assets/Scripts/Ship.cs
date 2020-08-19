@@ -18,7 +18,7 @@ public class Ship : MonoBehaviour
     Timer spawnTimer;
 
     [SerializeField]
-    GameObject bulletPrefab;
+    GameObject bulletPrefab = null;
 
     // Start is called before the first frame update
     void Start()
