@@ -3,11 +3,7 @@
 /// </summary>
 public enum AudioClipName
 {
-    BurgerDamage,
-    BurgerDeath,
-    BurgerShot,
-    Explosion,
-    MenuButtonClick,
-    PauseGame,
-    TeddyShot
+    AsteroidHit,
+    PlayerDeath,
+    PlayerShot
 }

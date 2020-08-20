@@ -31,11 +31,13 @@ public class Asteroid : MonoBehaviour
     {
         switch (col.gameObject.tag)
         {
-            case "Ship":
+        case "Ship":
+            AudioManager.Play(AudioClipName.PlayerDeath);
             Destroy(col.gameObject);
             break;
 
-            case "Bullet":
+        case "Bullet":
+            AudioManager.Play(AudioClipName.AsteroidHit);
             // Destroy bullet
             Destroy(col.gameObject);
 
@@ -61,9 +63,9 @@ public class Asteroid : MonoBehaviour
                 Rigidbody2D originalRigidbody = GetComponent<Rigidbody2D>();
 
                 float minDisturbe = 0.5f;
-                float maxDisturbe = 1.5f; 
-                Vector2 perturbation = new Vector2(Random.Range(minDisturbe, maxDisturbe), 
-                                                  Random.Range(minDisturbe, maxDisturbe));
+                float maxDisturbe = 1.5f;
+                Vector2 perturbation = new Vector2(Random.Range(minDisturbe, maxDisturbe),
+                                                    Random.Range(minDisturbe, maxDisturbe));
                 fargmentRigidbody.velocity = perturbation * originalRigidbody.velocity;
             }
             break;

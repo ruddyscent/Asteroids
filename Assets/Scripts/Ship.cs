@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
+﻿using UnityEngine;
 
 public class Ship : MonoBehaviour
 {
@@ -65,7 +62,8 @@ public class Ship : MonoBehaviour
             GameObject bullet = Instantiate(bulletPrefab, firePosition, Quaternion.identity);
             Rigidbody2D bulletRigidbody2D = bullet.GetComponent<Rigidbody2D>();
 
-            bulletRigidbody2D.AddForce(bulletMuzzleSpeed * shipHeading + shipVelocity, ForceMode2D.Impulse);    
+            bulletRigidbody2D.AddForce(bulletMuzzleSpeed * shipHeading + shipVelocity, ForceMode2D.Impulse);
+            AudioManager.Play(AudioClipName.PlayerShot);
         }
     }
 
